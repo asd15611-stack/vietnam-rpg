@@ -2,7 +2,7 @@
  * Service Worker 僅在 HTTPS 或 localhost 等安全來源可用；file:// 雙擊開啟不支援。
  */
 'use strict';
-const CACHE_NAME = 'vietnam-adventure-static-v4';
+const CACHE_NAME = 'vietnam-adventure-static-v5';
 const APP_SHELL = [
   './',
   './index.html',
