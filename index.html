@@ -507,6 +507,15 @@ nav.rpg-nav button img{border:1px solid #bd93f9!important;border-radius:3px!impo
 .cover-start{min-width:190px;padding:14px 24px!important;border:3px solid #fff0b3!important;border-radius:8px!important;background:#e4b34b!important;color:#392516!important;font-size:18px!important;font-weight:900!important;box-shadow:0 5px 0 #79451e,0 0 0 2px #392516!important;cursor:pointer;}
 .cover-start:active{transform:translateY(3px);box-shadow:0 2px 0 #79451e,0 0 0 2px #392516!important;}
 body.cover-open{overflow:hidden!important;}
+
+/* 修正封面：主標題與開始按鈕固定在畫面中央，裝飾圖片/遮罩不攔截點擊 */
+#coverScreen.cover-screen{isolation:isolate;display:flex!important;align-items:center!important;justify-content:center!important}
+#coverScreen.cover-screen>img{z-index:0;pointer-events:none}
+#coverScreen.cover-screen:after{z-index:1;pointer-events:none}
+#coverScreen .cover-caption{position:relative!important;inset:auto!important;left:auto!important;right:auto!important;bottom:auto!important;top:auto!important;transform:none!important;z-index:2!important;width:min(92vw,720px);margin:auto;padding:24px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:rgba(22,35,24,.48);border:2px solid rgba(255,232,164,.75);border-radius:12px;box-shadow:0 6px 0 rgba(40,25,14,.55)}
+#coverScreen .cover-logo,#coverScreen .cover-caption p{width:100%;text-align:center}
+#coverScreen .cover-start{position:relative!important;z-index:3!important;display:inline-flex!important;align-items:center;justify-content:center;min-height:54px;pointer-events:auto!important;touch-action:manipulation;cursor:pointer}
+#coverScreen.cover-leaving{pointer-events:none}
 </style>
 </head><body class="cover-open">
 <section class="reference-splash cover-screen" id="coverScreen" aria-label="越南冒險日記封面"><img src="./rpg-world.jpg" alt="越南冒險日記像素 RPG 封面：越南海灣、船隻與旅行冒險場景"><div class="cover-caption"><div class="cover-logo">🇻🇳 越南冒險日記</div><p>北越六天五夜・冒險即將開始</p><button type="button" class="cover-start" onclick="enterAdventure()">▶ 開始冒險</button></div></section><header><small>VIETNAM ADVENTURE · 2026</small><h1>🇻🇳 越南冒險日記</h1><p>北越六天五夜｜11/18（三）–11/23（一）</p></header><main>
