@@ -1,13 +1,15 @@
 /* 越南冒險日記：同源靜態資源離線快取。
- * Service Worker 僅在 HTTPS 或 localhost 等安全來源可用；file:// 雙擊開啟不支援。
+ * PWA 圖示修正版：保留既有快取策略，只升版以便瀏覽器取得新資源。
  */
 'use strict';
-const CACHE_NAME = 'vietnam-adventure-static-v6';
+const CACHE_NAME = 'vietnam-adventure-static-v7';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './icon.svg',
+  './icon-192.png',
+  './icon-512.png',
   './rpg-world.jpg',
   './btn-itinerary.jpg',
   './btn-diary.jpg',
