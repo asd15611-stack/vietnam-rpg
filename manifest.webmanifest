@@ -1,7 +1,7 @@
 {
   "name": "越南冒險日記 2026",
   "short_name": "越南冒險日記",
-  "start_url": "./index.html",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#282a36",
   "theme_color": "#282a36",
@@ -12,5 +12,7 @@
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "scope": "./",
+  "id": "./"
 }
