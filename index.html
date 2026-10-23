@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北越遠征錄：像素行程實境版</title>
+    <!-- 引入 Google Fonts 經典 8-Bit 像素字體 -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-color: #141d36;
+            --accent-color: #ff2a6d;
+            --success-color: #05d9e8;
+            --gold-color: #f5b041;
+            --text-color: #e2e8f0;
+            /* 核心字體設定：像素字體搭配中文等寬字體 */
+            --pixel-font: 'Press Start 2P', monospace;
+            --mono-font: ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+        
+        body {
+            font-family: var(--mono-font);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* 讓文字邊緣看起來更有像素塊的銳利感 */
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--panel-color);
+            border-radius: 0px; /* 復古風改為直角或極小圓角 */
+            padding: 20px;
+            box-shadow: 0 0 0 4px var(--bg-color), 0 0 0 8px #1f2e54, 0 0 25px rgba(5, 217, 232, 0.2);
+            border: 4px solid var(--success-color);
+            box-sizing: border-box;
+        }
+        
+        h1 {
+            font-family: var(--mono-font);
+            font-weight: bold;
+            text-align: center;
+            color: var(--success-color);
+            margin-top: 0;
+            text-shadow: 3px 3px 0px #000;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            border-bottom: 4px double var(--success-color);
+            padding-bottom: 10px;
+        }
+        
+        h2 { 
+            font-family: var(--mono-font);
+            color: var(--accent-color); 
+            text-shadow: 2px 2px 0px #000; 
+            font-size: 1.1rem; 
+            margin-top: 20px; 
+            text-align: center;
+        }
+        
+        .pixel-num {
+            font-family: var(--pixel-font);
+            font-size: 11px;
+            letter-spacing: -1px;
+        }
+        
+        .status-bar {
+            background: #0b132b;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            border: 2px solid #1c2541;
+        }
+        
+        .party-box {
+            background: #1c2541;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            border-left: 4px solid var(--gold-color);
+        }
+        
+        .party-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        input[type="text"] {
+            font-family: var(--mono-font);
+            width: 100%;
+            padding: 6px;
+            background: #0b0f19;
+            color: white;
+            border: 2px solid var(--success-color);
+            box-sizing: border-box;
+            font-size: 12px;
+        }
+        
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+        
+        .action-box {
+            background: #0b132b;
+            padding: 15px;
+            border: 2px solid #1c2541;
+            margin-bottom: 15px;
+        }
+        
+        input[type="file"] {
+            font-family: var(--mono-font);
+            width: 100%;
+            padding: 8px;
+            background: #0b0f19;
+            color: #aaa;
+            border: 2px dashed #3a506b;
+            box-sizing: border-box;
+            font-size: 11px;
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            font-family: var(--mono-font);
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-bottom: 4px solid #b0003a;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 0px rgba(0,0,0,0.3);
+            transition: all 0.1s;
+        }
+        
+        .btn:hover {
+            background: #ff5588;
+        }
+        
+        .btn:active {
+            border-bottom-width: 0px;
+            margin-top: 4px;
+            box-shadow: none;
+        }
+        
+        .btn-reset {
+            background: #333;
+            border-bottom: 3px solid #111;
+            margin-top: 15px;
+            padding: 6px;
+            font-size: 11px;
+            box-shadow: none;
+        }
+        .btn-reset:active { margin-top: 19px; border-bottom-width:0; }
+        
+        .log-item {
+            background: rgba(255,255,255,0.02);
+            padding: 14px;
+            border-left: 4px solid var(--success-color);
+            margin-bottom: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+            border-top: 1px solid rgba(255,255,255,0.01);
+        }
+        
+        .log-item img {
+            width: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            border: 2px solid #1c2541;
+            margin-top: 10px;
+        }
+        
+        .highlight-map { color: var(--success-color); font-weight: bold; }
+        .highlight-loot { color: var(--gold-color); font-weight: bold; }
+        .highlight-party { color: #ff9f43; font-style: italic; }
+        .route-tip { font-size: 12px; color: #a4b0be; margin-top: 8px; background: rgba(0,0,0,0.3); padding: 8px; border: 1px dashed #1f2e54;}
+        .achieve-banner { background: rgba(5, 217, 232, 0.1); border: 2px dashed var(--success-color); padding: 8px; font-size: 12px; color: var(--gold-color); margin-top: 10px; font-weight: bold; text-align: center;}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🇻🇳 北越遠征錄：RPG 行程實境版</h1>
+    
+    <!-- 4人遠征小隊 -->
+    <div class="party-box">
+        <b style="color:var(--gold-color);">⚔️ 4人遠征小隊名冊：</b>
+        <div class="party-grid">
+            <div><label>🛡️ 隊長：</label><input type="text" id="p1-name" value="勇者你" onchange="saveParty()"></div>
+            <div><label>🍔 狂戰：</label><input type="text" id="p2-name" value="吃貨狂戰" onchange="saveParty()"></div>
+            <div><label>🔮 聖騎：</label><input type="text" id="p3-name" value="迷路聖騎" onchange="saveParty()"></div>
+            <div><label>💰 付錢：</label><input type="text" id="p4-name" value="神聖付錢手" onchange="saveParty()"></div>
+        </div>
+    </div>
+
+    <!-- 任務提示欄 -->
+    <div class="status-bar">
+        <div class="status-row">
+            <div>當前時空：<span id="player-day" style="color:var(--gold-color);">🔥 準備啟程</span></div>
+            <div>小隊經驗：<span id="player-exp" class="pixel-num" style="color:var(--accent-color);">0</span> <span style="font-size:10px;color:var(--accent-color);">EXP</span></div>
+        </div>
+        <div class="route-tip">
+            📌 <span id="current-task-title" style="font-weight:bold; color:var(--success-color);">[主線任務]</span><br>
+            <span id="next-route-hint">等待驅動傳送陣...</span>
+        </div>
+        <div id="achievement-box" class="achieve-banner" style="display:none;">
+            🏆 成就解鎖進度更新中！
+        </div>
+    </div>
+
+    <!-- 打卡動作區 -->
+    <div class="action-box">
+        <label style="font-size:12px; color:#aaa; display:block; margin-bottom:5px;">📷 拍攝/上傳當前幻境照片（美食、風景或車票）：</label>
+        <input type="file" id="photo-input" accept="image/*" capture="environment">
+        <button class="btn" onclick="startCheckIn()">⚡ 驅動傳送陣（記錄北越足跡）</button>
+    </div>
+
+    <!-- 歷史日誌 -->
+    <div>
+        <h2>📜 聖痕遠征殘卷</h2>
+        <div id="log-container"></div>
+    </div>
+
+    <button class="btn btn-reset" onclick="resetGame()">🧹 抹除本次北越遠征記憶（刪除存檔）</button>
+</div>
+
+<script>
+    // 6 天行程資料庫
+    const itineraryStages = [
+        {
+            day: "Day 1 (11/18 三) 河內集結",
+            task: "【夜間移動任務：突入河內老城】",
+            map: "📍 區域：河內老城區 -> HK Buslines 夜巴",
+            hint: "16:00 降落內排機場 -> 傍晚老城區大啖美食 -> 21:30 前往 HK Buslines 集合，準備搭乘越過黑夜的「夜間巴士」奔向高地！",
+            loots: "【HK Buslines 夜巴臥鋪符石】",
+            events: "小隊全員拖著行李箱在河內老城區避開呼嘯而過的摩托車獸。吃貨狂戰順利斬獲了第一碗道地越式河粉，全員體力大回覆！"
+        },
+        {
+            day: "Day 2 (11/19 四) 砂壩探索",
+            task: "【山岳冒險任務：征服 Fansipan 巔峰】",
+            map: "📍 區域：砂壩 -> Palais De Sapa 飯店",
+            hint: "清晨抵達砂壩，前往 Palais De Sapa 寄存行李。上午搭乘「番西邦峰纜車」登頂直衝 3143m 雲海！下午漫步「貓貓村」體驗梯田秘境。",
+            loots: "【Fansipan 雲海開拓者勳章】",
+            events: "在 Palais De Sapa 享用了溫暖的熱茶。登上番西邦峰頂時狂風大作，迷路聖騎看著地圖發呆，幸好付錢手及時用熱咖啡拯救了大家。"
+        },
+        {
+            day: "Day 3 (11/20 五) 返回河內",
+            task: "【城市休整任務：還劍湖畔的詠嘆調】",
+            map: "📍 區域：還劍湖老城區 -> Minerva Church Hotel",
+            hint: "07:00 搭乘 HK Buslines 回到河內並入住 Minerva Church Hotel。下午在老城區與還劍湖畔悠閒散步，晚上預約高級按摩，洗去滿身疲憊！",
+            loots: "【還劍湖巨鱉的療癒聖水(蛋咖啡)】",
+            events: "小隊順利進駐 Minerva Church Hotel。下午在聖若瑟大教堂前拍下極具紀念意義的合照，吃貨狂戰瘋狂掃蕩路邊的美食攤位。"
+        },
+        {
+            day: "Day 4 (11/21 六) 下龍灣啟航",
+            task: "【郵輪主線任務：踏上 Hermes Premium 方舟】",
+            map: "📍 區域：下龍灣海域 -> Hermes Premium Cruise",
+            hint: "08:00 飯店接送 -> 11:30 抵達船塢。登輪入住豪華郵輪！14:30 突入 Luon Cave 水上活動，16:00 登頂 Titop Island 俯瞰千島龍涎海！",
+            loots: "【Hermes Premium Cruise 皇家船票】",
+            events: "全員等上奢華的 Hermes Premium Cruise 郵輪，躺在甲板上觀看世界奇蹟。在 Luon Cave 划皮艇時，聖騎與狂戰差點翻船，引得全場爆笑。"
+        },
+        {
+            day: "Day 5 (11/22 日) 洞穴探險",
+            task: "【自然探索任務：驚訝洞的遠古秘寶】",
+請謹慎使用程式碼。
+map: "📍 區域：Sung Sot Cave 驚訝洞 -> 重返河內",
+hint: "07:30 深入「Sung Sot Cave 驚訝洞」觀賞壯麗的鐘乳石奇觀。11:00 下船重返河內，再次進駐 Minerva Church Hotel 展開自由活動與大採購！",
+loots: "【驚訝洞遠古鐘乳石之碎裂寶石】",
+events: "深入龐大的驚訝洞地底迷宮，被宏偉的自然景觀深深震撼。重返河內後，付錢手開啟無情刷卡模式，瘋狂採購伴手禮腰果箱。"
+},
+{
+day: "Day 6 (11/23 一) 返家任務",
+task: "【最終終結任務：滿載回憶踏上歸途】",
+map: "📍 區域：內排國際機場 -> 飛返台北",
+hint: "上午悠閒整理行李並退房，11:30 前往機場辦理登機。15:40 登上鋼鐵巨獸班機，帶著塞滿相機的聖痕回憶順利飛返台灣！",
+loots: "【北越 6天5夜 傳奇遠征回憶錄】",
+events: "小隊四人在內排機場做最後的越南盾出清，買齊了所有伴手禮。回顧這 6 天的點點滴滴，大家約定好下一次的副本還要一起組隊！"
+}
+];
+let gameState = {
+party: ["勇者你", "吃貨狂戰", "迷路聖騎", "神聖付錢手"],
+exp: 0,
+logs: [],
+checkInCount: 0
+};
+window.onload = function() {
+const savedData = localStorage.getItem("vietnam_perfect_rpg_mono");
+if (savedData) {
+gameState = JSON.parse(savedData);
+document.getElementById("p1-name").value = gameState.party || "勇者你";
+document.getElementById("p2-name").value = gameState.party || "吃貨狂戰";
+document.getElementById("p3-name").value = gameState.party || "迷路聖騎";
+document.getElementById("p4-name").value = gameState.party || "神聖付錢手";
+}
+renderStatus();
+renderLogs();
+};
+function saveParty() {
+gameState.party = document.getElementById("p1-name").value;
+gameState.party = document.getElementById("p2-name").value;
+gameState.party = document.getElementById("p3-name").value;
+gameState.party = document.getElementById("p4-name").value;
+saveGame();
+}
+function renderStatus() {
+let stageIndex = Math.min(gameState.checkInCount, itineraryStages.length - 1);
+let currentStage = itineraryStages[stageIndex];
+document.getElementById("player-day").innerText = currentStage.day;
+document.getElementById("player-exp").innerText = gameState.exp;
+document.getElementById("current-task-title").innerText = currentStage.task;
+document.getElementById("next-route-hint").innerText = currentStage.hint;
+const achBox = document.getElementById("achievement-box");
+if (gameState.checkInCount >= 2 && gameState.checkInCount < 4) {
+achBox.style.display = "block";
+achBox.innerHTML = "🏆 [成就解鎖] 🌟 已征服番西邦峰！ 🌟 漫遊貓貓村！";
+} else if (gameState.checkInCount >= 4) {
+achBox.style.display = "block";
+achBox.innerHTML = "🏆 [成就解鎖] 🔥 暢遊下龍灣！ 🎉 6天5夜完美通關！";
+} else {
+achBox.style.display = "none";
+}
+}
+function startCheckIn() {
+if (!navigator.geolocation) {
+alert("你的裝置不支援 GPS 定位。");
+return;
+}
+saveParty();
+const container = document.getElementById("log-container");
+const loadingId = "loading-" + Date.now();
+container.innerHTML = <div class="log-item" id="${loadingId}">🔮 [SYSTEM] 正在讀取以太坐標...</div> + container.innerHTML;
+navigator.geolocation.getCurrentPosition(
+(position) => {
+document.getElementById(loadingId).remove();
+processCheckIn(position);
+},
+(error) => {
+document.getElementById(loadingId).remove();
+processCheckIn({ coords: { latitude: 21.0285, longitude: 105.8542 } });
+},
+{ enableHighAccuracy: true, timeout: 5000 }
+);
+}
+function processCheckIn(position) {
+let stageIndex = Math.min(gameState.checkInCount, itineraryStages.length - 1);
+let currentStage = itineraryStages[stageIndex];
+const lat = position.coords.latitude;
+const lon = position.coords.longitude;
+const now = new Date().toLocaleTimeString();
+const expGained = Math.floor(Math.random() * 50) + 200;
+gameState.exp += expGained;
+gameState.checkInCount += 1;
+const photoInput = document.getElementById("photo-input");
+if (photoInput.files && photoInput.files) {
+const reader = new FileReader();
+reader.onload = function(e) {
+completeLogEntry(now, lat, lon, currentStage, expGained, e.target.result);
+};
+reader.readAsDataURL(photoInput.files);
+} else {
+completeLogEntry(now, lat, lon, currentStage, expGained, "");
+}
+}
+function completeLogEntry(time, lat, lon, stage, exp, imgData) {
+let eventText = stage.events
+.replace("勇者你", <span class="highlight-party">${gameState.party}</span>)
+.replace("吃貨狂戰", <span class="highlight-party">${gameState.party}</span>)
+.replace("迷路聖騎", <span class="highlight-party">${gameState.party}</span>)
+.replace("神聖付錢手", <span class="highlight-party">${gameState.party}</span>)
+.replace("付錢手", <span class="highlight-party">${gameState.party}</span>);
+let coordsText = (lat === 21.0285) ? "[模擬時空通道]" : LAT ${lat.toFixed(4)} / LON ${lon.toFixed(4)};
+const newLog = {
+time: time,
+coords: coordsText,
+dayInfo: stage.day,
+taskName: stage.task,
+mapName: stage.map,
+loot: stage.loots,
+event: eventText,
+exp: exp,
+img: imgData
+};
+gameState.logs.unshift(newLog);
+document.getElementById("photo-input").value = "";
+saveGame();
+renderStatus();
+renderLogs();
+}
+function renderLogs() {
+const container = document.getElementById("log-container");
+if (gameState.logs.length === 0) {
+container.innerHTML = <div class="log-item">💡 <b>冒險啟程指引：</b><br>請在名冊上填寫小隊暱稱。旅途中拍下照片並點擊「驅動傳送陣」，APP 就會完全對照你們的<b>像素行程表</b>，自動解鎖 Day 1 到 Day 6 的主線劇情、獲取等寬排版字體的限定戰利品！</div>;
+return;
+}
+let html = "";
+gameState.logs.forEach(log => {
+let imgTag = log.img ? <img src="${log.img}" alt="遠征實景"> : "";
+html += <div class="log-item"> ⏱️ <span class="pixel-num" style="color:var(--gold-color); font-weight:bold;">[${log.time}]</span> <b>── ${log.dayInfo}</b><br> 🌍 <span class="pixel-num" style="font-size:11px; color:#a4b0be;">${log.coords}</span><br> 🛡️ <b>任務：</b> <span style="color:var(--accent-color); font-weight:bold;">${log.taskName}</span><br> 🗺️ <b>地圖：</b> <span class="highlight-map">${log.mapName}</span><br> 👥 <b>隨行：</b> ${log.event}<br> 🎒 <b>斬獲：</b> <span class="highlight-loot">${log.loot}</span><br> 🌟 <b>結算：</b> 獲得 <span class="pixel-num" style="color:var(--success-color); font-weight:bold;">+${log.exp}</span> <span style="font-size:10px; color:var(--success-color);">EXP</span> ${imgTag} </div>;
+});
+container.innerHTML = html;
+}
+function saveGame() {
+localStorage.setItem("vietnam_perfect_rpg_mono", JSON.stringify(gameState));
+}
+function resetGame() {
+if(confirm("確定要抹除這趟傳奇的北越實境遠征記憶嗎？所有相片與經驗值將永久清空！")) {
+localStorage.removeItem("vietnam_perfect_rpg_mono");
+gameState = { party: ["勇者你", "吃貨狂戰", "迷路聖騎", "神神聖付錢手"], exp: 0, logs: [], checkInCount: 0 };
+document.getElementById("p1-name").value = "勇者你";
+document.getElementById("p2-name").value = "吃貨狂戰";
+document.getElementById("p3-name").value = "迷路聖騎";
+document.getElementById("p4-name").value = "神聖付錢手";
+renderStatus();
+renderLogs();
+}
+}
