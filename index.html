@@ -774,5 +774,6 @@ safeStartup('成就',renderAchievements);
 safeStartup('出發檢查',renderChecks);
 safeStartup('旅行進度',updateProgress);
 if(startupErrors.length){const notice=document.createElement('div');notice.className='notice';notice.style.cssText='margin:12px;padding:12px;border:2px solid #b45309';notice.innerHTML='<b>部分功能初始化失敗，但其他頁面仍可使用。</b><ul>'+startupErrors.map(x=>'<li>'+String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))+'</li>').join('')+'</ul>';document.body.insertBefore(notice,document.body.firstChild)}
+window.addEventListener('load',()=>{try{renderRpgMap();}catch(err){console.error('[地圖重新載入失敗]',err);const host=document.getElementById('rpgMap');if(host)host.innerHTML='<div class="notice">地圖載入失敗。請重新整理頁面；若仍無法顯示，請先匯出備份再聯絡維護。</div>';} });
 if('serviceWorker'in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(e=>console.warn(e)));
 </script></body></html>
