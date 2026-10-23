@@ -499,12 +499,12 @@ nav.rpg-nav button img{border:1px solid #bd93f9!important;border-radius:3px!impo
 <style id="cover-screen-flow">
 /* 封面啟動畫面：點擊開始後才進入首頁，不依賴網路字體 */
 .cover-screen{position:fixed!important;inset:0!important;z-index:99999!important;width:100%!important;height:100vh!important;height:100dvh!important;max-width:none!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#17351f!important;line-height:normal!important;padding:0 0 max(18px,env(safe-area-inset-bottom))!important;}
-.cover-screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;background:#17351f;image-rendering:pixelated;}
+.cover-screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;background:#17351f;image-rendering:pixelated;pointer-events:none;}
 .cover-screen:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,24,17,.06) 20%,rgba(15,24,17,.12) 48%,rgba(15,24,17,.82) 100%);pointer-events:none;}
-.cover-caption{position:absolute;z-index:1;left:16px;right:16px;bottom:max(28px,calc(env(safe-area-inset-bottom) + 18px));text-align:center;color:#fff4df;text-shadow:2px 2px 0 #392516;}
+.cover-caption{position:absolute;z-index:100001;left:16px;right:16px;bottom:max(28px,calc(env(safe-area-inset-bottom) + 18px));text-align:center;color:#fff4df;text-shadow:2px 2px 0 #392516;pointer-events:auto;}
 .cover-logo{font-family:"Courier New","Microsoft JhengHei",monospace;font-weight:900;font-size:clamp(25px,6vw,42px);line-height:1.35;letter-spacing:.03em;}
 .cover-caption p{margin:8px 0 18px;font-size:14px;font-weight:700;color:#fff4df;}
-.cover-start{min-width:190px;padding:14px 24px!important;border:3px solid #fff0b3!important;border-radius:8px!important;background:#e4b34b!important;color:#392516!important;font-size:18px!important;font-weight:900!important;box-shadow:0 5px 0 #79451e,0 0 0 2px #392516!important;cursor:pointer;}
+.cover-start{position:relative;z-index:100002;pointer-events:auto;touch-action:manipulation;min-width:190px;padding:14px 24px!important;border:3px solid #fff0b3!important;border-radius:8px!important;background:#e4b34b!important;color:#392516!important;font-size:18px!important;font-weight:900!important;box-shadow:0 5px 0 #79451e,0 0 0 2px #392516!important;cursor:pointer;}
 .cover-start:active{transform:translateY(3px);box-shadow:0 2px 0 #79451e,0 0 0 2px #392516!important;}
 body.cover-open{overflow:hidden!important;}
 </style>
